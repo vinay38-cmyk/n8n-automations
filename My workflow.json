@@ -1,0 +1,290 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## I'm a note \n I just want to send an email to someone like hello world program"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -784,
+        -320
+      ],
+      "typeVersion": 1,
+      "id": "874ba6ef-d85a-4ed0-a673-79f050dc6201",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "FORM AI AUTORESPONDER "
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1168,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "22a45dae-e81d-49a5-ac59-16126468d78b",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "formTitle": "On Boarding Form ",
+        "formDescription": "This is an onboarding form for LeftClick. Fill out the fields and our team will get back to you shortly.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "First Name ",
+              "placeholder": "Arun",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Last Name ",
+              "placeholder": "Gupta",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email Address",
+              "fieldType": "email",
+              "placeholder": "chintu@gmail.ai ",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone ",
+              "placeholder": "+918009002333",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Design",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Playful"
+                  },
+                  {
+                    "option": "Minimal "
+                  },
+                  {
+                    "option": "Sleek"
+                  },
+                  {
+                    "option": "On Your Opinion "
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Company Description ",
+              "placeholder": "Build Growth Systems for B2B agencies for their Development ",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Timeline ",
+              "placeholder": "3-6 Weeks",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        -1056,
+        240
+      ],
+      "id": "199d75a9-88a4-47fd-89ad-83e5e48dc4f0",
+      "name": "On form submission",
+      "webhookId": "06809ee0-a8cb-419a-b2e9-081a3c3737bf"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-5-MINI"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "You are helpful ,intelligent email writing assistant ."
+            },
+            {
+              "content": "=your task is customize email based on the following data \ntemplate \n\nFirst Name: {{ $json['First Name '] }}\nLast Name: {{ $json['Last Name '] }}\nEmail Address: {{ $json['Email Address']}}\nPhone: {{ $json['Phone '] }}\nDesign: {{ $json.Design }}\nCompany Description: {{ $json['Company Description '] }}\nTimeline {{ $json['Timeline '] }}\n\n\n--\n\nHey {First Name},\nHow are you Thanks for Submitting Your OnBoardForm a moment ago\ni love reading about {paraphrased company description} i see here that you are looking for {design preference} sort of site, and you're going to do {timeline}.\nwould you mind confriming your Number one last for me ? {Phone} ,right ?and your email is {Email} could you let missing anything?\n\nThanks,\nVinay\n\n--\n\nDon't include the subject line "
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        -848,
+        240
+      ],
+      "id": "645fc2e7-0178-4083-806d-00b7cc4ae007",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "2zdVytgFFivBVik8",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "chintuvinay223@gmail.com",
+        "subject": "imp",
+        "emailType": "text",
+        "message": "hello chintz nice to meet now",
+        "options": {
+          "appendAttribution": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -1040,
+        -128
+      ],
+      "id": "c8cc1198-bb80-41bb-8532-664a4d6eded8",
+      "name": "Send a message1",
+      "webhookId": "8e7aa7c7-3d83-43cd-a83f-d88224c2689d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "35aSZ3XkthzeS9DN",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "girivayila59@gmail.com",
+        "subject": "Re: your on boarding form ",
+        "emailType": "text",
+        "message": "={{ $json[\"output\"][0][\"content\"][0][\"text\"] }}",
+        "options": {
+          "appendAttribution": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        -304,
+        240
+      ],
+      "id": "21a6d9e6-02ea-4755-bc36-7c1bab0bca75",
+      "name": "Send a message",
+      "webhookId": "8e7aa7c7-3d83-43cd-a83f-d88224c2689d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "35aSZ3XkthzeS9DN",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -496,
+        240
+      ],
+      "id": "3103e25a-8bb7-4091-a78a-92599c4bd710",
+      "name": "Wait",
+      "webhookId": "401ea96d-00eb-48cc-a11b-5b086fc7fe53"
+    },
+    {
+      "parameters": {
+        "content": "## I'm a note \n3. Calendar booking -> reply -> update\nCRM\nLastly, we'll use an app trigger (Cal.com, my calendar booking software) to watch for new bookings, then send a \"personal\" email, and then finally update a CRM."
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1168,
+        480
+      ],
+      "typeVersion": 1,
+      "id": "3c9fd1bd-7d94-4bb5-b842-68dabb67011d",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "events": [
+          "BOOKING_CREATED"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.calTrigger",
+      "typeVersion": 2,
+      "position": [
+        -880,
+        528
+      ],
+      "id": "98b1e454-6986-4422-8134-0483c7f1400b",
+      "name": "Cal.com Trigger",
+      "webhookId": "bc465227-67ee-4a2c-901a-db4c15aba59a",
+      "credentials": {
+        "calApi": {
+          "id": "aHHst0Y2Etdxqpy6",
+          "name": "Vinay"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "16a99090-e8d1-4b5f-b1dc-bc35af67a550",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "da5510cb95aa1a3e5589ea3501980525654e0c1e6f51ec3cddad8f539ff31712"
+  },
+  "id": "LCuZzwmjsh1zNEXm",
+  "tags": []
+}
